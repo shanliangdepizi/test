@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc 
+        http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- 开启MVC注解 -->
+	<mvc:annotation-driven />
+	<!-- 放行静态资源 -->
+	<mvc:default-servlet-handler />
+
+	<!-- xml形式的拦截器 -->
+	<mvc:interceptors>
+		<mvc:interceptor>
+		    <!--  
+		      /* 表示只能拦截一级目录
+		      /**表示拦截全部访问路径
+		    -->
+			<mvc:mapping path="/cart/**" />
+			<bean class="com.jt.web.interceptor.UserInterceptor"/>
+		</mvc:interceptor>
+	</mvc:interceptors>
+	<!-- 添加映射和资源文件 -->
+	<!-- <mvc:resources location="" mapping=""/> -->
+	<!-- 添加视图路径 -->
+	<!-- <mvc:view-controller path=""/> -->
+
+	<!-- 配置视图解析器 内部资源视图解析器 配置前缀和后缀 WEB-INF/view/ 相对路径 /WEB-INF/view/ 绝对路径 一般使用这个 -->
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/views/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+	<!-- 配置文件视图上传解析器 要求： id必须是multipartResolver -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- 设定最大的上传量 10M -->
+		<property name="maxUploadSize" value="10485760" />
+	</bean>
+</beans>

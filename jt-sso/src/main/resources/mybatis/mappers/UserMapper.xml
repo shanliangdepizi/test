@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace 作用 1.需要与mapper接口路径保持一致 2.唯一标识映射文件的namespace数值 不能重复 -->
+<mapper namespace="com.jt.sso.mapper.UserMapper">
+	<select id="findItemCount" resultType="int">
+		select count(*) from
+		tb_item
+	</select>
+	<!-- $与#区别: # 预编译的效果，防止sql注入 为参数添加“”号，当字符串使用 $ 如果需要以字段名称为参数()时候，使用$符号，如果使用#会导致业务异常 
+		原则： 能用#符号不用$符号 -->
+	<!-- <select id="findItemListByPage" resultType="Item"> select * from tb_item 
+		order by updated desc limit #{start},#{rows} </select> -->
+
+	<select id="findCheckUser" resultType="int">
+		select count(*)
+		from tb_user
+		where ${column} = #{param}
+	</select>
+</mapper>
